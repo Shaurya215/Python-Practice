@@ -1,0 +1,18 @@
+{
+  "Cabbage & Buttermilk Curry Recipe": {
+    "name": "Cabbage & Buttermilk Curry Recipe",
+    "cuisine": "Indian",
+    "diet": "Gluten Free",
+    "prep_time": "Total in 35 M",
+    "image_url": "https://www.archanaskitchen.com/images/archanaskitchen/1-Author/Chatori_Ladki/Cabbage__Buttermilk_Curry.jpg",
+    "added_at": "2026-02-19T15:11:26.801472"
+  },
+  "Lobia Masala Recipe (Black Eyed Bean Curry) - Roz Ka Khana With Figaro Olive Oil": {
+    "name": "Lobia Masala Recipe (Black Eyed Bean Curry) - Roz Ka Khana With Figaro Olive Oil",
+    "cuisine": "North Indian Recipes",
+    "diet": "High Protein Vegetarian",
+    "prep_time": "Total in 45 M",
+    "image_url": "https://www.archanaskitchen.com/images/archanaskitchen/0-Archanas-Kitchen-Recipes/2017/0-Archana/11-long-format-Punjabi_Lobia_Masala_Figaro_Olive_Oil-2.jpg",
+    "added_at": "2026-02-19T15:11:34.799100"
+  }
+}

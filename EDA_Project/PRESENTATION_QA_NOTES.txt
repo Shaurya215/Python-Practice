@@ -1,0 +1,86 @@
+================================================================================
+RECIPE EDA PROJECT - Q&A PREPARATION FOR COLLEGE PRESENTATION
+================================================================================
+Use this document to answer questions from your professor/sir during the presentation.
+================================================================================
+
+--- DATASET OVERVIEW ---
+
+Q: What is this dataset about?
+A: This is a recipe and nutrition dataset containing over 26,000 recipes. Each recipe has a name, average user rating (1-5), number of reviews, nutritional information (calories, fat, carbs, protein, cholesterol, sodium, fiber), and a list of ingredients. The data appears to be from an AllRecipes-style platform.
+
+Q: How many rows and columns?
+A: Approximately 26,000+ rows (recipes) and 13 columns. The columns are: recipe_id, recipe_name, aver_rate, image_url, review_nums, calories, fat, carbohydrates, protein, cholesterol, sodium, fiber, ingredients_list.
+
+Q: What is the source of the data?
+A: The dataset appears to be scraped or collected from a recipe website (similar to AllRecipes) based on the image URLs and structure. It contains user-generated content (ratings, reviews) and nutritional data.
+
+---
+
+--- COLUMN EXPLANATIONS ---
+
+Q: What does aver_rate mean?
+A: Average rating given by users on a 1-5 scale. Higher means better-rated recipes.
+
+Q: What are the units for nutritional columns?
+A: Calories, fat, carbohydrates, protein, and fiber are in grams (g). Cholesterol and sodium are in milligrams (mg). These are typically per-serving values.
+
+Q: What is ingredients_list?
+A: A string representation of a Python list containing the ingredient names. For example: "['chicken', 'salt', 'pepper']". We parse this to count ingredients per recipe.
+
+---
+
+--- DATA QUALITY ---
+
+Q: Are there missing values?
+A: Run the notebook to check. Common areas: some recipes may have null nutritional values or missing image URLs. The EDA notebook includes a missing values analysis.
+
+Q: Is the data clean?
+A: Generally yes. The ingredients_list is stored as a string (needs parsing). Some nutritional values might be 0 or very low - these could be data entry issues or genuinely low-calorie recipes.
+
+Q: Any outliers?
+A: Yes. Review counts are highly skewed - most recipes have few reviews, but some popular ones have hundreds or thousands. Calories and other nutritional values may have extreme outliers (e.g., very high-calorie recipes).
+
+---
+
+--- KEY FINDINGS (from EDA) ---
+
+Q: What is the typical recipe rating?
+A: The median/average rating is around 4.2-4.5. Most recipes are rated positively (above 4.0).
+
+Q: Do highly-rated recipes have more reviews?
+A: Not necessarily. Popular recipes (many reviews) can have varied ratings. There may be a weak correlation - run the notebook to see the scatter plot.
+
+Q: What is the calorie distribution?
+A: Most recipes fall in a moderate calorie range. The distribution is right-skewed. Median is around 200-400 calories per serving (check exact from notebook output).
+
+Q: How many ingredients do recipes typically have?
+A: Varies widely. Average is around 10-15 ingredients. Some simple recipes have 3-5, complex ones can have 30+.
+
+Q: Is there a relationship between ingredient count and rating?
+A: The EDA includes a boxplot. Generally, moderate complexity (not too few, not too many ingredients) might correlate with satisfaction - but this is exploratory.
+
+---
+
+--- METHODOLOGY ---
+
+Q: What EDA techniques did you use?
+A: (1) Descriptive statistics (mean, median, std, min, max), (2) Missing value analysis, (3) Univariate distributions (histograms), (4) Bivariate analysis (correlation heatmap, scatter plots), (5) Categorical/grouped analysis (boxplots by ingredient count), (6) Top/bottom recipe analysis.
+
+Q: Why use log scale for review counts?
+A: Review counts are highly skewed. A few recipes have thousands of reviews while most have very few. Log scale makes the distribution visible and interpretable.
+
+Q: Why correlation heatmap?
+A: To understand relationships between numerical variables (e.g., do high-calorie recipes have more fat? Is rating related to any nutritional factor?). Helps identify multicollinearity for future modeling.
+
+---
+
+--- TECHNICAL ---
+
+Q: What libraries did you use?
+A: Pandas (data manipulation), NumPy (numerical operations), Matplotlib and Seaborn (visualization).
+
+Q: How do you handle the ingredients_list?
+A: We use ast.literal_eval() to safely parse the string into a Python list, then count the length to get ingredient count per recipe.
+
+================================================================================

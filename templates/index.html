@@ -1,0 +1,575 @@
+{% extends "base.html" %}
+{% block title %}Home | FlavorForge{% endblock %}
+
+{% block extra_css %}
+<style>
+    .header { text-align: center; margin-bottom: 2rem; }
+    .header .badge {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--terracotta);
+        margin-bottom: 0.5rem;
+    }
+    .header h1 {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: clamp(1.75rem, 4vw, 2.25rem);
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0 0 0.5rem;
+        letter-spacing: -0.02em;
+    }
+    .header .tagline { font-size: 0.95rem; color: var(--charcoal-soft); }
+
+    .form-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        padding: 1.75rem 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .form-card::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, var(--terracotta), var(--sage));
+        border-radius: var(--radius) 0 0 var(--radius);
+    }
+    .form-card { position: relative; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
+    .field { margin-bottom: 1.25rem; }
+    .field.full { grid-column: 1 / -1; }
+    .field label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--charcoal-soft);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.4rem;
+    }
+    .field input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-family: inherit;
+        font-size: 0.95rem;
+        color: var(--charcoal);
+        background: var(--cream);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input::placeholder { color: #AAA; }
+    .field input:focus {
+        outline: none;
+        border-color: var(--terracotta);
+        box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.15);
+    }
+    .btn-submit {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 0.9rem 1.5rem;
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--white);
+        background: var(--terracotta);
+        border: none;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        margin-top: 0.5rem;
+    }
+    .btn-submit:hover {
+        background: var(--terracotta-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(199, 91, 57, 0.35);
+    }
+
+    .results-head {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.35rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: 1.25rem;
+    }
+    .recipe-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.25rem;
+    }
+    .recipe-card {
+        background: var(--white);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .recipe-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
+    }
+    .recipe-img-wrap {
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        background: var(--cream-dark);
+        position: relative;
+    }
+    .recipe-video-wrap iframe {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    .youtube-link-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        min-height: 140px;
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        gap: 0.5rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .youtube-link-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba(238,90,90,0.4);
+        color: white;
+    }
+    .youtube-icon {
+        font-size: 2rem;
+        opacity: 0.9;
+    }
+    .recipe-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+    .recipe-card img[data-error="1"] { object-fit: contain; padding: 1rem; opacity: 0.7; }
+    .recipe-info { padding: 1rem 1rem 1.1rem; }
+    .recipe-info h3 {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0 0 0.4rem;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .recipe-info p {
+        font-size: 0.8rem;
+        color: var(--charcoal-soft);
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .btn-view-full {
+        display: block;
+        width: 100%;
+        margin-top: 0.6rem;
+        padding: 0.5rem 0.75rem;
+        font-family: inherit;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--terracotta);
+        background: transparent;
+        border: 1px solid var(--terracotta);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+    .btn-view-full:hover {
+        background: var(--terracotta);
+        color: var(--white);
+    }
+    .recipe-card { cursor: pointer; position: relative; }
+    .like-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: none;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        transition: all 0.2s;
+        z-index: 10;
+    }
+    .like-btn:hover {
+        background: var(--white);
+        transform: scale(1.1);
+    }
+    .like-btn.liked {
+        color: #ff4444;
+    }
+    .like-btn:not(.liked) {
+        color: var(--charcoal-soft);
+    }
+
+    /* Full recipe modal */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+        background: var(--white);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-hover);
+        max-width: 600px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+    }
+    .modal-close {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 2rem;
+        height: 2rem;
+        border: none;
+        background: var(--cream);
+        border-radius: 50%;
+        font-size: 1.25rem;
+        line-height: 1;
+        cursor: pointer;
+        color: var(--charcoal-soft);
+        z-index: 2;
+    }
+    .modal-close:hover { background: var(--border); color: var(--charcoal); }
+    .modal-video-wrap {
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: var(--cream-dark);
+        overflow: hidden;
+    }
+    .modal-video-wrap iframe {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    .modal-yt-link {
+        min-height: 180px;
+        font-size: 1.1rem;
+    }
+    .modal-recipe-img {
+        width: 100%;
+        aspect-ratio: 16/10;
+        object-fit: cover;
+        object-position: center;
+        background: var(--cream-dark);
+    }
+    .modal-recipe-img[data-error="1"] { object-fit: contain; padding: 1rem; }
+    .modal-body { padding: 1.5rem 1.75rem 2rem; }
+    .modal-body h2 {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0 0 1.25rem;
+        line-height: 1.3;
+    }
+    .modal-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.25rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.9rem;
+        color: var(--charcoal-soft);
+    }
+    .modal-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+    .modal-meta strong {
+        color: var(--charcoal);
+        font-weight: 600;
+    }
+    .modal-section {
+        margin-bottom: 1.5rem;
+    }
+    .modal-section:last-child { margin-bottom: 0; }
+    .modal-section strong {
+        display: block;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--charcoal-soft);
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+    }
+    .modal-section .text {
+        font-size: 0.95rem;
+        color: var(--charcoal);
+        line-height: 1.7;
+    }
+    .ingredients-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 0.5rem;
+    }
+    .ingredients-list li {
+        padding: 0.5rem 0.75rem;
+        background: var(--cream);
+        border-left: 3px solid var(--terracotta);
+        border-radius: var(--radius-sm);
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    .instructions-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        counter-reset: step-counter;
+    }
+    .instructions-list li {
+        counter-increment: step-counter;
+        padding: 0.75rem 0 0.75rem 2rem;
+        position: relative;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--charcoal);
+    }
+    .instructions-list li::before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0.75rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: var(--terracotta);
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="header">
+    <span class="badge">Machine Learning Project</span>
+    <h1>FlavorForge</h1>
+    <p class="tagline">AI-Powered Recipe Discovery Using TF-IDF and K-Nearest Neighbors</p>
+</header>
+
+<div class="form-card">
+    <form method="post">
+        <div class="form-row">
+            <div class="field">
+                <label for="cuisine">Cuisine</label>
+                <input type="text" id="cuisine" name="cuisine" placeholder="e.g. Italian, Thai" required>
+            </div>
+            <div class="field">
+                <label for="diet">Diet</label>
+                <input type="text" id="diet" name="diet" placeholder="e.g. Vegan, Keto" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="field">
+                <label for="prep_time">Prep time</label>
+                <input type="text" id="prep_time" name="prep_time" placeholder="e.g. 30 min, 1 hour" required>
+            </div>
+            <div class="field">
+                <label for="ingredients">Ingredients</label>
+                <input type="text" id="ingredients" name="ingredients" placeholder="e.g. chicken, garlic, basil" required>
+            </div>
+        </div>
+        <div class="field full">
+            <button type="submit" class="btn-submit">Get Recommendations</button>
+        </div>
+    </form>
+</div>
+
+{% if recommendations %}
+<section class="results">
+    <h2 class="results-head">Recommended for you</h2>
+    <p style="font-size:0.9rem; color: var(--charcoal-soft); margin-bottom: 1rem;">Click <strong>View full recipe</strong> on any card to see full details and instructions.</p>
+    <div class="recipe-grid">
+        {% for recipe in recommendations %}
+        <article class="recipe-card" data-recipe-index="{{ loop.index0 }}" data-recipe-name="{{ recipe['name'] }}">
+            <button 
+                class="like-btn" 
+                data-recipe-name="{{ recipe['name'] }}"
+                onclick="toggleLike('{{ recipe['name'] }}', this)"
+                title="Add to favorites"
+            >
+                ♡
+            </button>
+            <div class="recipe-img-wrap recipe-video-wrap">
+                {% if recipe.get('youtube_video_id') %}
+                <iframe src="https://www.youtube.com/embed/{{ recipe.youtube_video_id }}?rel=0" title="{{ recipe['name'] }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% else %}
+                <a href="{{ recipe.get('youtube_search_url', '#') }}" target="_blank" rel="noopener" class="youtube-link-card">
+                    <span class="youtube-icon">▶</span>
+                    <span>Watch on YouTube</span>
+                </a>
+                {% endif %}
+            </div>
+            <div class="recipe-info">
+                <h3>{{ recipe['name'] }}</h3>
+                <p>{{ recipe['ingredients'] | truncate(100) }}</p>
+                <button type="button" class="btn-view-full" data-recipe-index="{{ loop.index0 }}" onclick="openRecipeModal({{ loop.index0 }})">View full recipe</button>
+            </div>
+            <div class="recipe-full-content" id="recipe-detail-{{ loop.index0 }}" style="display:none;" aria-hidden="true">
+                <div class="modal-video-wrap">
+                {% if recipe.get('youtube_video_id') %}
+                <iframe src="https://www.youtube.com/embed/{{ recipe.youtube_video_id }}?rel=0" title="{{ recipe['name'] }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% else %}
+                <a href="{{ recipe.get('youtube_search_url', '#') }}" target="_blank" rel="noopener" class="youtube-link-card modal-yt-link">
+                    <span class="youtube-icon">▶</span>
+                    <span>Watch Recipe Video on YouTube</span>
+                </a>
+                {% endif %}
+                </div>
+                <div class="modal-body">
+                    <h2>{{ recipe['name'] }}</h2>
+                    <div class="modal-meta">
+                        {% if recipe.get('cuisine') %}<span><strong>Cuisine:</strong> {{ recipe['cuisine'] }}</span>{% endif %}
+                        {% if recipe.get('diet') %}<span><strong>Diet:</strong> {{ recipe['diet'] }}</span>{% endif %}
+                        {% if recipe.get('prep_time') %}<span><strong>Prep time:</strong> {{ recipe['prep_time'] }}</span>{% endif %}
+                    </div>
+                    {% if recipe.get('description') %}
+                    <div class="modal-section">
+                        <strong>About</strong>
+                        <div class="text">{{ recipe['description'] }}</div>
+                    </div>
+                    {% endif %}
+                    <div class="modal-section">
+                        <strong>Ingredients</strong>
+                        <ul class="ingredients-list">
+                            {% set ingredients_items = (recipe.get('ingredients') or '') | split_ingredients %}
+                            {% if ingredients_items %}
+                                {% for item in ingredients_items %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            {% else %}
+                                <li>—</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% if recipe.get('instructions') %}
+                    <div class="modal-section">
+                        <strong>Instructions</strong>
+                        <ol class="instructions-list">
+                            {% set instructions_items = recipe.get('instructions') | split_instructions %}
+                            {% for step in instructions_items %}
+                            <li>{{ step }}{% if step[-1:] != '.' and step[-1:] != '!' and step[-1:] != '?' %}.{% endif %}</li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<div class="modal-overlay" id="recipe-modal" aria-hidden="true">
+    <div class="modal-box">
+        <button type="button" class="modal-close" onclick="closeRecipeModal()" aria-label="Close">&times;</button>
+        <div id="recipe-modal-content"></div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openRecipeModal(index) {
+    var content = document.getElementById('recipe-detail-' + index);
+    var modal = document.getElementById('recipe-modal');
+    if (content && modal) {
+        document.getElementById('recipe-modal-content').innerHTML = content.innerHTML;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+}
+function closeRecipeModal() {
+    var modal = document.getElementById('recipe-modal');
+    if (modal) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+}
+function toggleLike(recipeName, button) {
+    fetch('/like', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ recipe_name: recipeName })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (data.action === 'added') {
+                button.classList.add('liked');
+                button.innerHTML = '♥';
+                button.title = 'Remove from favorites';
+            } else {
+                button.classList.remove('liked');
+                button.innerHTML = '♡';
+                button.title = 'Add to favorites';
+            }
+        } else {
+            alert(data.message || 'Error updating favorite');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error updating favorite');
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    var m = document.getElementById('recipe-modal');
+    if (m) m.addEventListener('click', function(e) { if (e.target === this) closeRecipeModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeRecipeModal(); });
+});
+</script>
+{% endblock %}

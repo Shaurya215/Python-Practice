@@ -1,0 +1,55 @@
+================================================================================
+4466 Recipes - Image & YouTube Data કેવી રીતે Collect કરવું
+================================================================================
+
+OPTION 1: FULLY AUTOMATED (Recommended)
+--------------------------------------
+YouTube videos automatically fetch કરવા:
+
+A) Without API Key (Free, Easy):
+   pip install youtube-search-python
+   python fetch_youtube_no_api.py
+   
+   - Output: cuisine_with_youtube.csv (youtube_url column સાથે)
+   - LIMIT variable change કરીને more recipes process કરો
+
+B) With YouTube API Key (More reliable):
+   - Google Cloud Console માંથી free API key લો
+   - fetch_youtube_videos.py માં key add કરો
+   python fetch_youtube_videos.py
+
+
+OPTION 2: HYBRID (Manual + Automated)
+--------------------------------------
+- Top 50-100 popular recipes: Manual add (best quality)
+- Rest: Automated script run કરો
+
+
+OPTION 3: MANUAL (Only for small subset)
+----------------------------------------
+4466 manual = ખૂબ સમય લાગશે. ફક્ત important recipes માટે use કરો.
+
+
+EXCEL / CSV માં Add કરવું:
+--------------------------
+1. cuisine_updated.csv open કરો Excel માં
+2. New column add કરો: "youtube_url"
+3. Script run કર્યા પછી cuisine_with_youtube.csv માં data આવશે
+4. App માં use કરવા: cuisine_with_youtube.csv ને cuisine_updated.csv તરીકે rename કરો
+   અથવા config માં path change કરો
+
+
+IMAGE વિશે:
+-----------
+- Archana's Kitchen images block થાય છે
+- download_images.py try કરો (કેટલાક download થઈ શકે)
+- અથવા image ની જગ્યાએ YouTube video use કરો (already implemented)
+
+
+SUMMARY:
+--------
+| Method        | Time     | Quality | Best For        |
+|---------------|----------|---------|-----------------|
+| Automated     | 1-2 hrs  | Good    | All 4466        |
+| Hybrid        | 2-3 hrs  | Best    | College project  |
+| Full Manual   | 100+ hrs | Best    | Not practical    |

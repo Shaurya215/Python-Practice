@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}About Us | FlavorForge{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <h1>About Us</h1>
+    <p>FlavorForge is an academic project that helps you discover recipes based on your preferences. Enter your preferred <strong>cuisine</strong>, <strong>diet</strong>, <strong>prep time</strong>, and <strong>ingredients</strong> to get personalized recipe suggestions.</p>
+
+    <p><strong>How it works</strong></p>
+    <p>FlavorForge uses <strong>TF-IDF (Term Frequency-Inverse Document Frequency)</strong> to convert your inputs and each recipe’s features (cuisine, diet, prep time, ingredients) into numeric vectors. It then uses <strong>K-Nearest Neighbors (KNN)</strong> to find recipes in the dataset that are most similar to your preferences.</p>
+
+    <p><strong>Technologies</strong></p>
+    <p>Built with <strong>Flask</strong> (web framework), <strong>scikit-learn</strong> (TF-IDF and KNN), and <strong>pandas</strong> (data handling). The project is designed for academic demonstration and learning.</p>
+
+    <p>For project-related queries or feedback, please visit our <a href="{{ url_for('contact') }}">Contact Us</a> page.</p>
+</section>
+{% endblock %}

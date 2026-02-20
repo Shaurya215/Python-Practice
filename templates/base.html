@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FlavorForge - AI-Powered Recipe Discovery using TF-IDF and K-Nearest Neighbors. Discover recipes by cuisine, diet, prep time and ingredients.">
+    <title>{% block title %}FlavorForge{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FAF7F2;
+            --cream-dark: #F0EBE3;
+            --terracotta: #C75B39;
+            --terracotta-hover: #B34A2A;
+            --charcoal: #1A1A1A;
+            --charcoal-soft: #4A4A4A;
+            --sage: #3D5A50;
+            --border: #E8E4DF;
+            --white: #FFFFFF;
+            --shadow: 0 4px 24px rgba(26, 26, 26, 0.08);
+            --shadow-hover: 0 12px 40px rgba(26, 26, 26, 0.14);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            color: var(--charcoal);
+            margin: 0;
+            min-height: 100vh;
+            line-height: 1.5;
+            position: relative;
+        }
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: var(--cream) url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920') center center / cover no-repeat;
+        }
+        .bg-layer::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(250, 247, 242, 0.92) 0%, rgba(240, 235, 227, 0.88) 100%);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+        }
+        .nav-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .nav-logo {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        .nav-logo:hover { color: var(--terracotta); }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--charcoal-soft);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover,
+        .nav-links a.active { color: var(--terracotta); }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 2.5rem;
+        }
+
+        /* Page section (About, Contact) */
+        .page-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+        }
+        .page-section h1 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin: 0 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--terracotta);
+        }
+        .page-section p { font-size: 0.95rem; color: var(--charcoal-soft); margin: 0 0 1rem; }
+        .page-section p:last-child { margin-bottom: 0; }
+
+        .footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 1rem 1.5rem;
+            font-size: 0.8rem;
+            color: var(--charcoal-soft);
+            border-top: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .footer a { color: var(--terracotta); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+    <div class="bg-layer"></div>
+
+    <header class="navbar">
+        <div class="nav-wrap">
+            <a href="{{ url_for('index') }}" class="nav-logo">FlavorForge</a>
+            <nav class="nav-links">
+                <a href="{{ url_for('index') }}" {% if request.endpoint == 'index' %}class="active"{% endif %}>Home</a>
+                <a href="{{ url_for('search') }}" {% if request.endpoint == 'search' %}class="active"{% endif %}>Search</a>
+                <a href="{{ url_for('favorites') }}" {% if request.endpoint == 'favorites' %}class="active"{% endif %}>Favorites</a>
+                <a href="{{ url_for('about') }}" {% if request.endpoint == 'about' %}class="active"{% endif %}>About Us</a>
+                <a href="{{ url_for('contact') }}" {% if request.endpoint == 'contact' %}class="active"{% endif %}>Contact Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="wrap">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        FlavorForge — Academic Project &nbsp;|&nbsp; <a href="{{ url_for('index') }}">Home</a> &nbsp;·&nbsp; <a href="{{ url_for('about') }}">About Us</a> &nbsp;·&nbsp; <a href="{{ url_for('contact') }}">Contact Us</a>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

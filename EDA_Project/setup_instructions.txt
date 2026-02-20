@@ -1,0 +1,24 @@
+Recipe EDA Project - Setup Instructions
+========================================
+
+1. OPEN TERMINAL in the Recipe_EDA_Project folder
+
+2. CREATE VIRTUAL ENVIRONMENT (optional but recommended):
+   python -m venv venv
+   venv\Scripts\activate
+
+3. INSTALL DEPENDENCIES:
+   pip install -r requirements.txt
+
+4. DATASET PATH:
+   The notebook expects the dataset at: C:\Users\shaur\Recipe\recipe_final.csv
+   If your dataset is elsewhere, edit config.py and set DATA_PATH to the correct path.
+
+5. RUN THE NOTEBOOK:
+   jupyter notebook eda_notebook.ipynb
+   OR open in VS Code / Cursor and run all cells
+
+6. BEFORE PRESENTATION:
+   - Run all cells to ensure outputs are generated
+   - Review PRESENTATION_QA_NOTES.txt for potential questions
+   - Review UNIQUE_PROJECT_POINTS.txt for "what is unique" answer

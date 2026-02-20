@@ -1,0 +1,42 @@
+PROJECT: FlavorForge - AI-Powered Recipe Recommendation System
+
+DESCRIPTION:
+A machine learning web application that recommends recipes based on user preferences (cuisine, diet, prep time, ingredients) using TF-IDF vectorization and K-Nearest Neighbors algorithm.
+
+TECHNOLOGY STACK:
+- Backend: Flask (Python)
+- ML Libraries: scikit-learn (TF-IDF, KNN), pandas, NumPy
+- Frontend: HTML5, CSS3, JavaScript
+- Dataset: CSV file with recipe data (name, cuisine, diet, prep_time, ingredients, image_url, description, instructions)
+
+HOW IT WORKS:
+1. Loads recipe dataset from CSV, preprocesses (removes NaN)
+2. Combines recipe features (cuisine + diet + prep_time + ingredients) into text strings
+3. Applies TF-IDF vectorization to convert text to numerical vectors
+4. Trains KNN model (n_neighbors=3, euclidean distance) on vectorized features
+5. User submits form with preferences → System transforms inputs using same TF-IDF
+6. KNN finds 3-5 most similar recipes → Returns recommendations
+
+FEATURES:
+- Home page: Search form (cuisine, diet, prep_time, ingredients)
+- Recipe cards: Display recommendations with image, name, truncated ingredients, "View full recipe" button
+- Full recipe modal: Shows complete details including formatted ingredients list and numbered instructions
+- Navigation: Home, About Us, Contact Us pages
+- Responsive design, image fallbacks, accessibility features
+
+KEY FILES:
+- app.py: Flask backend, ML pipeline, routes (/, /about, /contact)
+- templates/index.html: Home page with form and recipe display
+- templates/base.html: Base template with navbar/footer
+- templates/about.html: Project description
+- templates/contact.html: Contact information
+- Data/cuisine_updated.csv: Recipe dataset
+
+ALGORITHMS:
+- TF-IDF: Converts recipe text features into numerical vectors for mathematical comparison
+- KNN: Finds recipes with smallest euclidean distance to user's input vector
+
+USER FLOW:
+User enters preferences → Clicks "Get Recommendations" → Sees recipe cards → Clicks "View full recipe" → Modal shows complete recipe with formatted ingredients and instructions
+
+PROJECT TYPE: Academic ML project demonstrating NLP and recommendation systems

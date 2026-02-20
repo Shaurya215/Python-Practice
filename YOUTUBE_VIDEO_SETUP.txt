@@ -1,0 +1,31 @@
+Recipe માટે YouTube Video કેવી રીતે ઉમેરવું
+============================================
+
+Option 1: recipe_youtube_mapping.json ફાઈલમાં ઉમેરો
+---------------------------------------------------
+Recipe નામ અને YouTube Video ID add કરો.
+
+Example:
+{
+  "Sweet Ulundhu Kanji Recipe | Urad Dal Porridge": "dQw4w9WgXcQ",
+  "Fish Tandoori Recipe": "ABC123xyz12"
+}
+
+Video ID ક્યાંથી મળશે?
+- URL: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+- Video ID = dQw4w9WgXcQ (v= પછીનો ભાગ)
+
+
+Option 2: CSV માં youtube_url column ઉમેરો
+------------------------------------------
+cuisine_updated.csv માં નવો column "youtube_url" add કરો.
+
+Example row:
+name,youtube_url,...
+Fish Tandoori Recipe,https://www.youtube.com/watch?v=ABC123xyz12,...
+
+
+Output:
+-------
+- જો video ID હોય → Recipe card પર YouTube video embed દેખાશે
+- જો ન હોય → "Watch on YouTube" button દેખાશે (recipe name પરથી search open થશે)
