@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Sign in | FlavorForge{% endblock %}
+
+{% block extra_css %}
+<style>
+  .login-wrap {
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .login-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: 2rem 1.75rem 1.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .login-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--terracotta), var(--sage));
+  }
+  .login-brand {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .login-brand .logo {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin: 0 0 0.35rem;
+  }
+  .login-brand .sub {
+    font-size: 0.9rem;
+    color: var(--charcoal-soft);
+    margin: 0;
+  }
+  .login-card h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    text-align: center;
+  }
+  .login-hint {
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--charcoal-soft);
+    margin: 0 0 1.35rem;
+  }
+  .field { margin-bottom: 1.1rem; }
+  .field label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--charcoal-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+  }
+  .field input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--charcoal);
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field input:focus {
+    outline: none;
+    border-color: var(--terracotta);
+    box-shadow: 0 0 0 3px rgba(199, 91, 57, 0.15);
+  }
+  .btn-signin {
+    width: 100%;
+    margin-top: 0.35rem;
+    padding: 0.95rem 1rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--terracotta);
+    color: var(--white);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-signin:hover {
+    background: var(--terracotta-hover);
+    transform: translateY(-1px);
+  }
+  .error {
+    background: rgba(199, 91, 57, 0.10);
+    border: 1px solid rgba(199, 91, 57, 0.35);
+    color: var(--charcoal);
+    padding: 0.75rem 0.9rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.1rem;
+    font-size: 0.92rem;
+  }
+  .login-footer {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--charcoal-soft);
+  }
+  .login-footer a {
+    color: var(--terracotta);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .login-footer a:hover { text-decoration: underline; }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-brand">
+        <p class="logo">The Flavor Forge</p>
+        <p class="sub">Recipe recommendations &amp; favorites</p>
+      </div>
+      <h1>Sign in</h1>
+      <p class="login-hint">Use your username and password to continue.</p>
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+      <form method="post" action="{{ url_for('login') }}" autocomplete="on">
+        {% if request.args.get('next') %}
+        <input type="hidden" name="next" value="{{ request.args.get('next') }}" />
+        {% endif %}
+        <div class="field">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter username"
+            value="{{ username or '' }}"
+            required
+            autocomplete="username"
+            autofocus
+          />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter password"
+            required
+            autocomplete="current-password"
+          />
+        </div>
+        <button class="btn-signin" type="submit">Log in</button>
+      </form>
+      <p class="login-footer">
+        <a href="{{ url_for('home') }}">← Back to welcome</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}

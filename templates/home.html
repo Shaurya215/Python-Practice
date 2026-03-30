@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block body_class %}page-home{% endblock %}
+{% block title %}Welcome | FlavorForge{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Full-bleed hero: hide global cream background on this page */
+  body.page-home .bg-layer {
+    display: none;
+  }
+  body.page-home {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  body.page-home .wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  /* Dark glass nav over hero */
+  body.page-home .navbar {
+    background: rgba(0, 0, 0, 0.38);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  body.page-home .nav-logo {
+    color: #fff;
+  }
+  body.page-home .nav-logo:hover {
+    color: #b8f0c8;
+  }
+  body.page-home .nav-links a {
+    color: rgba(255, 255, 255, 0.88);
+  }
+  body.page-home .nav-links a:hover,
+  body.page-home .nav-links a.active {
+    color: #fff;
+  }
+  body.page-home .nav-actions {
+    border-left-color: rgba(255, 255, 255, 0.22);
+  }
+  body.page-home .nav-logout-btn {
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+  body.page-home .nav-logout-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+  body.page-home .nav-login-btn {
+    background: #2ea84a;
+    color: #fff;
+  }
+  body.page-home .nav-login-btn:hover {
+    background: #259340;
+    color: #fff;
+  }
+  body.page-home .footer {
+    background: rgba(18, 18, 18, 0.92);
+    color: rgba(255, 255, 255, 0.55);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  body.page-home .footer a {
+    color: #7dcea0;
+  }
+  body.page-home .footer a:hover {
+    color: #a9e8bf;
+  }
+
+  .home-hero {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: calc(100dvh - 120px);
+    min-height: calc(100vh - 120px);
+    padding: 2rem 1.5rem 3rem;
+    background:
+      #1a1a1a
+      url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1920&q=80')
+      center center / cover no-repeat;
+  }
+  .home-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.52);
+    z-index: 0;
+  }
+  .home-hero-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+  .home-hero h1 {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(2rem, 6vw, 3.35rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 1rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+  }
+  .home-hero .tagline {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.92);
+    margin: 0 0 2rem;
+    line-height: 1.55;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+  }
+  .btn-get-started {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.95rem 2.75rem;
+    font-family: 'DM Sans', inherit;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background: #2ea84a;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 8px 28px rgba(46, 168, 74, 0.45);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-get-started:hover {
+    background: #259340;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(46, 168, 74, 0.5);
+    color: #fff;
+  }
+  .btn-get-started:active {
+    transform: translateY(0);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="home-hero" aria-label="Welcome">
+  <div class="home-hero-inner">
+    <h1>Welcome to The Flavor Forge</h1>
+    <p class="tagline">Discover the best recipes based on your taste.</p>
+    <a class="btn-get-started" href="{{ url_for('login') }}">Getting Started</a>
+  </div>
+</section>
+{% endblock %}

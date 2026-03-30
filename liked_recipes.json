@@ -14,5 +14,29 @@
     "prep_time": "Total in 45 M",
     "image_url": "https://www.archanaskitchen.com/images/archanaskitchen/0-Archanas-Kitchen-Recipes/2017/0-Archana/11-long-format-Punjabi_Lobia_Masala_Figaro_Olive_Oil-2.jpg",
     "added_at": "2026-02-19T15:11:34.799100"
+  },
+  "Chilli Cheese Paratha Recipe": {
+    "name": "Chilli Cheese Paratha Recipe",
+    "cuisine": "North Indian Recipes",
+    "diet": "Vegetarian",
+    "prep_time": "Total in 50 M",
+    "image_url": "https://www.archanaskitchen.com/images/archanaskitchen/0-Archanas-Kitchen-Recipes/2019/Chilli_Cheese_Paratha_recipe_Britannia_Chessy_Kitchen_Video_Recipe_9_1600.jpg",
+    "added_at": "2026-03-28T13:49:44.289431"
+  },
+  "Vegetarian Enchiladas": {
+    "name": "Vegetarian Enchiladas",
+    "cuisine": "Mexican",
+    "diet": "Vegetarian",
+    "prep_time": "Total in 60 M",
+    "image_url": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23f0ebe3' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='14'%3ERecipe Image%3C/text%3E%3C/svg%3E",
+    "added_at": "2026-03-28T13:58:05.639962"
+  },
+  "Green Beans Fry Recipe": {
+    "name": "Green Beans Fry Recipe",
+    "cuisine": "Indian",
+    "diet": "Vegetarian",
+    "prep_time": "Total in 40 M",
+    "image_url": "https://www.archanaskitchen.com/images/archanaskitchen/1-Author/Pooja_Thakur/Green_Beans_Fry.jpg",
+    "added_at": "2026-03-28T13:58:07.112922"
   }
 }

@@ -1,6 +1,20 @@
 """
-Script to expand the recipe dataset for ML recommendation system.
-This script helps add more recipes to increase dataset size and improve model accuracy.
+Dataset expansion script for the recipe recommendation system.
+==============================================================
+
+Purpose
+-------
+For a content‑based recommender to work well, we need a reasonably
+large and diverse dataset of recipes. This script shows how we can
+*synthetically* grow the dataset by:
+    - Defining hand‑crafted recipe templates for multiple cuisines.
+    - Appending them to the existing CSV file.
+    - Removing duplicates by recipe name.
+
+This is very useful in an academic project where:
+    - Real scraping / API calls may be slow or limited.
+    - We still want to demonstrate how a larger dataset can
+      improve coverage and recommendation quality.
 """
 
 import pandas as pd
@@ -12,7 +26,7 @@ DATA_PATH = os.path.join(BASE_DIR, "Data", "cuisine_updated.csv")
 OUTPUT_PATH = os.path.join(BASE_DIR, "Data", "cuisine_updated.csv")  # Overwrite original
 
 def load_dataset():
-    """Load existing dataset"""
+    """Load existing dataset from CSV and report the number of recipes."""
     try:
         df = pd.read_csv(DATA_PATH, encoding='utf-8-sig')
         print(f"Loaded {len(df)} existing recipes")
@@ -23,9 +37,16 @@ def load_dataset():
 
 def generate_additional_recipes():
     """
-    Generate additional recipe templates.
-    In production, you would fetch these from recipe APIs or scrape from recipe websites.
-    This provides a structure for adding recipes.
+    Generate additional recipe templates in code.
+
+    Notes
+    -----
+    - In a real production system, new recipes would come from:
+        * Public recipe APIs,
+        * Web scraping (with permission), or
+        * User‑generated content.
+    - Here we hard‑code templates so we can easily demonstrate
+      dataset expansion in a controlled way.
     """
     
     # Recipe templates with diverse cuisines and diets
@@ -182,7 +203,16 @@ def generate_additional_recipes():
     return all_new
 
 def expand_dataset(df, target_count=6000):
-    """Expand dataset to target count"""
+    """
+    Expand the dataset with new recipes until we reach a target size.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Original dataset loaded from CSV.
+    target_count : int
+        Desired minimum number of recipes after expansion.
+    """
     current_count = len(df)
     print(f"\nCurrent dataset: {current_count} recipes")
     print(f"Target: {target_count} recipes")
@@ -209,7 +239,13 @@ def expand_dataset(df, target_count=6000):
         return df
 
 def analyze_dataset(df):
-    """Analyze dataset statistics"""
+    """
+    Print basic descriptive statistics for the dataset.
+
+    This is helpful when explaining the data distribution to faculty:
+    - Number of recipes
+    - Top cuisines, diets and courses.
+    """
     print("\n" + "="*60)
     print("DATASET ANALYSIS")
     print("="*60)
@@ -234,7 +270,7 @@ def analyze_dataset(df):
     print("="*60)
 
 def main():
-    """Main function"""
+    """Entry‑point for dataset expansion when running this file as a script."""
     print("="*60)
     print("RECIPE DATASET EXPANSION FOR ML MODEL")
     print("="*60)
